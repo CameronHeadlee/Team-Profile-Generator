@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const require = require("inquirer");
+const fs = require("fs");
 
 const questions = [
     {
@@ -142,43 +142,43 @@ const generateHTML = ({school, internEmail, internId, internName, thirdUsername,
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">ID:${firstId}</li>
                   <li class="list-group-item">Email:${firstEmail}</li>
-                  <li class="list-group-item">A third item</li>
+                  <li class="list-group-item">Github:${firstUsername}</li>
                 </ul>
               </div> 
         </section>
         <section>
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                  Featured
+                  ${secondEngineer}
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">An item</li>
-                  <li class="list-group-item">A second item</li>
-                  <li class="list-group-item">A third item</li>
+                  <li class="list-group-item">ID:${secondId}</li>
+                  <li class="list-group-item">Email:${secondEmail}</li>
+                  <li class="list-group-item">Github:${secondUsername}</li>
                 </ul>
               </div> 
         </section>
         <section>
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                  Featured
+                  ${thirdEngineer}
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">An item</li>
-                  <li class="list-group-item">A second item</li>
-                  <li class="list-group-item">A third item</li>
+                  <li class="list-group-item">ID:${thirdId}</li>
+                  <li class="list-group-item">Email:${thirdEmail}</li>
+                  <li class="list-group-item">Github:${thirdUsername}</li>
                 </ul>
               </div>  
         </section>
         <section>
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                  Featured
+                  ${internName}
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">An item</li>
-                  <li class="list-group-item">A second item</li>
-                  <li class="list-group-item">A third item</li>
+                  <li class="list-group-item">ID:${internId}</li>
+                  <li class="list-group-item">Email:${internEmail}</li>
+                  <li class="list-group-item">School:${school}}</li>
                 </ul>
               </div> 
         </section>
@@ -188,11 +188,19 @@ const generateHTML = ({school, internEmail, internId, internName, thirdUsername,
     </body>
     </html>   
     `
-}
+};
 
 inquirer.prompt(questions)
-.then((answers) =>{
-    console.log(answers)
+.then((answers) => {
+    const html = generateHTML(answers);
+
+    fs.writeFile("index.html", html, (err) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log("writing an HTML file...")
+        }
+    });
 })
 .catch((error) => {
     if (error.isTtyError) {
